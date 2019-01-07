@@ -7,10 +7,10 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "4x^3";
+		String you = "(4x^2)(3x^3)";
 	//	System.out.println(you.substring(0,2));
-		testingPowerRule(you);
-		//second = first.typeOfDerivative(you);
+		//testingPowerRule(you);
+		second = first.typeOfDerivative(you);
 	}
 	Derivative() {
 		
@@ -76,35 +76,38 @@ public class Derivative {
 	 */
 	private static Derivative productRule(String fX, String fG) {
 		int secondIndex =1; 
-		String aSubString, derivativeFX = null, derivativeFG =null;
-		System.out.println("Testing in ProductRule One " + fX + " "  + fG);
-		for(int firstIndex = 0; firstIndex < fX.length(); firstIndex++) {
-			 aSubString = fX.substring(firstIndex, secondIndex);
-			 System.out.println("Testing in ProductRule Two " + fX.substring(firstIndex));
-			 if(aSubString.equals("^")) {
-				 
-				 derivativeFX = powerRule(fX.substring(0, secondIndex -2), fX.substring(secondIndex));
-				//This line will Finish the For Loop as it doesnt need to continue as we have 
-				//Answer.
-				//System.out.println("Product rule Testing Three " + fX );
-				firstIndex = fX.length(); 
-			 }
-			 secondIndex++; 
-			}
-		secondIndex = 1; 
-		for(int firstIndex = 0; firstIndex < fG.length(); firstIndex++) {
-			 aSubString = fG.substring(firstIndex, secondIndex);
-			 System.out.println("Testing in ProductRule Two " + fG.substring(firstIndex));
-			 if(aSubString.equals("^")) {
-				 
-				 derivativeFG = powerRule(fG.substring(0, secondIndex -2), fG.substring(secondIndex));
-				//This line will Finish the For Loop as it doesnt need to continue as we have 
-				//Answer.
-				//System.out.println("Product rule Testing Four " + fG );
-				firstIndex = fG.length(); 
-			 }
-			 secondIndex++;
-		}
+		String  derivativeFX = null, derivativeFG =null;
+		derivativeFX = powerRule(fX);
+		derivativeFG = powerRule(fG); 
+//		System.out.println("Testing in ProductRule One " + fX + " "  + fG);
+		
+//		for(int firstIndex = 0; firstIndex < fX.length(); firstIndex++) {
+//			 aSubString = fX.substring(firstIndex, secondIndex);
+//			 System.out.println("Testing in ProductRule Two " + fX.substring(firstIndex));
+//			 if(aSubString.equals("^")) {
+//				 
+//				 derivativeFX = powerRule(fX.substring(0, secondIndex -2), fX.substring(secondIndex));
+//				//This line will Finish the For Loop as it doesnt need to continue as we have 
+//				//Answer.
+//				//System.out.println("Product rule Testing Three " + fX );
+//				firstIndex = fX.length(); 
+//			 }
+//			 secondIndex++; 
+//			}
+//		secondIndex = 1; 
+//		for(int firstIndex = 0; firstIndex < fG.length(); firstIndex++) {
+//			 aSubString = fG.substring(firstIndex, secondIndex);
+//			 System.out.println("Testing in ProductRule Two " + fG.substring(firstIndex));
+//			 if(aSubString.equals("^")) {
+//				 
+//				 derivativeFG = powerRule(fG.substring(0, secondIndex -2), fG.substring(secondIndex));
+//				//This line will Finish the For Loop as it doesnt need to continue as we have 
+//				//Answer.
+//				//System.out.println("Product rule Testing Four " + fG );
+//				firstIndex = fG.length(); 
+//			 }
+//			 secondIndex++;
+//		}
 		String derivative = "("+derivativeFX + ")("+fG + ") + (" + fX +")("+derivativeFG +")";
 		System.out.println("Testing Power Rule Four "+derivative);
 		Derivative answer = new Derivative(derivative); 
@@ -115,27 +118,28 @@ public class Derivative {
 	 * Quotient Rule Formula fx = f(x)/f(g). fx^1 = (d/dx f(x)(f(g)) - f(x)d/dx f(g))/f(g)^2
 	 */
 	private static Derivative quotientRule(String fX, String fG) {
-		String derivativeFX = null, derivativeFG = null, aSubString, FINAL_DERIVATIVE = null;
-		
-		int secondIndex = 1; 
-		for(int index = 0; index < fX.length(); index++) {
-			aSubString = fX.substring(index, secondIndex); 
-			if(aSubString.equals("^")) {
-				//Write Things here 
-				 derivativeFX = powerRule(fX.substring(0, secondIndex -2), fX.substring(secondIndex));
-
-			}
-			secondIndex++; 
-		}
-		secondIndex =1 ; 
-		for(int index = 0; index < fG.length(); index++) {
-			aSubString = fG.substring(index, secondIndex);
-			if(aSubString.equals("^")) {
-				 derivativeFG = powerRule(fG.substring(0, secondIndex -2), fG.substring(secondIndex));
-
-			}
-			secondIndex++;
-		}	
+		String derivativeFX = null, derivativeFG = null,  FINAL_DERIVATIVE = null;
+		derivativeFX = powerRule(fX); 
+		derivativeFG = powerRule(fG);
+//		int secondIndex = 1; 
+//		for(int index = 0; index < fX.length(); index++) {
+//			aSubString = fX.substring(index, secondIndex); 
+//			if(aSubString.equals("^")) {
+//				//Write Things here 
+//				 derivativeFX = powerRule(fX.substring(0, secondIndex -2), fX.substring(secondIndex));
+//
+//			}
+//			secondIndex++; 
+//		}
+//		secondIndex =1 ; 
+//		for(int index = 0; index < fG.length(); index++) {
+//			aSubString = fG.substring(index, secondIndex);
+//			if(aSubString.equals("^")) {
+//				 derivativeFG = powerRule(fG.substring(0, secondIndex -2), fG.substring(secondIndex));
+//
+////			}
+////			secondIndex++;
+////		}	
 		FINAL_DERIVATIVE = "(("+ derivativeFX+")" + fG + " - " + fX + "("  + derivativeFG+"))\n" +"        (" + fG+ ")^2";
 		System.out.println(FINAL_DERIVATIVE);
 		Derivative answer = null;
@@ -181,7 +185,7 @@ public class Derivative {
 //	
 //		return leadingCoeffincient + "x^" + powerConstant ; 
 //	}
-	private static String testingPowerRule(String fX) {
+	private static String powerRule(String fX) {
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
 		String aSubstring , constant; 
 		boolean noPowerOf = true;
