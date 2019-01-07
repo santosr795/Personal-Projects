@@ -3,15 +3,14 @@ public class Derivative {
 	private String Derivative; 
 	private String f_Of_X; 
 	private String f_Of_G;
-	
+	 
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(4x^1)(12X^3)";
-		
-		 second = first.typeOfDerivative(you);
-		
-		
+		String you = "4x^3";
+	//	System.out.println(you.substring(0,2));
+		testingPowerRule(you);
+		//second = first.typeOfDerivative(you);
 	}
 	Derivative() {
 		
@@ -32,33 +31,42 @@ public class Derivative {
 		String firstPartOfDerivative = null; 
 		String secondPartOfDerivative = null;
 		for(int index = 0; index < input.length(); index++) {
-			
-			
 			//System.out.println(input.substring(index,secondIndex));
 			answer = input.substring(index, secondIndex);
 			 if(input.substring(index,secondIndex).equals(")") && in==0) {
 				firstPartOfDerivative = input.substring(1, secondIndex-1); 
-				System.out.println(firstPartOfDerivative);
+			//	System.out.println("Test number first typeOfDerivative" +firstPartOfDerivative);
 				in = secondIndex;
 			 }
-			
-			
 			else if(in > 1 && answer.equals("(") ) {
 				if(answer.equals("(") && input.substring(index-1, secondIndex-1).equals(")")){
-				secondPartOfDerivative = input.substring(secondIndex, input.length()-1); 
-				System.out.println(secondPartOfDerivative);
+					secondPartOfDerivative = input.substring(secondIndex, input.length()-1); 
+				//	System.out.println("Test number second typeOfDerivative" +secondPartOfDerivative);
 					Derivative product = null; 
 					product = productRule(firstPartOfDerivative,secondPartOfDerivative);
 				}
-				//System.out.println(input.substring(in+1, input.length()-1));
-				
 			}
-			
-		//	System.out.println(input.substring(index,secondIndex));
-			
+			else if(in > 1 && answer.equals("/")) {
+				//	System.out.println("Three");
+					if(answer.equals("/") && input.substring(index -1, secondIndex-1).equals(")") ) {
+						secondPartOfDerivative = input.substring(secondIndex + 1, input.length()-1); 
+						Derivative quotient; 
+						quotient = quotientRule(firstPartOfDerivative, secondPartOfDerivative); 
+						System.out.println("Test number third typeOfDerivative" + secondPartOfDerivative);
+					}
+					
+				}
 			secondIndex++;
-		//	System.out.println("re");
 		}
+		if(secondPartOfDerivative ==null) {
+			Derivative power; 
+		//	power = powerRule(firstPartOfDerivative);
+		}
+		/*
+		 * The Instance variable answer is not a valid 
+		 * answer. Change it once all this method is complete 
+		 * 
+		 */
 		Derivative answer3 = new Derivative(answer);
 		return answer3; 
 	}
@@ -104,6 +112,36 @@ public class Derivative {
 		return answer ; 
 	}
 	/*
+	 * Quotient Rule Formula fx = f(x)/f(g). fx^1 = (d/dx f(x)(f(g)) - f(x)d/dx f(g))/f(g)^2
+	 */
+	private static Derivative quotientRule(String fX, String fG) {
+		String derivativeFX = null, derivativeFG = null, aSubString, FINAL_DERIVATIVE = null;
+		
+		int secondIndex = 1; 
+		for(int index = 0; index < fX.length(); index++) {
+			aSubString = fX.substring(index, secondIndex); 
+			if(aSubString.equals("^")) {
+				//Write Things here 
+				 derivativeFX = powerRule(fX.substring(0, secondIndex -2), fX.substring(secondIndex));
+
+			}
+			secondIndex++; 
+		}
+		secondIndex =1 ; 
+		for(int index = 0; index < fG.length(); index++) {
+			aSubString = fG.substring(index, secondIndex);
+			if(aSubString.equals("^")) {
+				 derivativeFG = powerRule(fG.substring(0, secondIndex -2), fG.substring(secondIndex));
+
+			}
+			secondIndex++;
+		}	
+		FINAL_DERIVATIVE = "(("+ derivativeFX+")" + fG + " - " + fX + "("  + derivativeFG+"))\n" +"        (" + fG+ ")^2";
+		System.out.println(FINAL_DERIVATIVE);
+		Derivative answer = null;
+		return answer = new Derivative(FINAL_DERIVATIVE); 
+	}
+	/*
 	 * PowerRule Method.
 	 * This method is the simulation of the power rule when finding the 
 	 * derivative of f(x). 
@@ -127,21 +165,72 @@ public class Derivative {
 	 * 7) The method will return as follow (leadingCoeffincient + "X^" + powerConstant). This 
 	 * will come out as "12x^2".
 	 */
-	private static String powerRule(String leadingCoeffincient, String powerConstant) {
-		String answer = null;
-		System.out.println("Testing PowerRule One" + leadingCoeffincient + " " + powerConstant );
-		int intLeadingCoeffincient = Integer.parseInt(leadingCoeffincient), intPowerConstant = Integer.parseInt(powerConstant);
-		intLeadingCoeffincient = intLeadingCoeffincient * intPowerConstant; 
-		intPowerConstant =intPowerConstant - 1; 
-		
-		leadingCoeffincient = String.valueOf(intLeadingCoeffincient); 
-		powerConstant = String.valueOf(intPowerConstant); 
-		if(intPowerConstant == 0) {
-			return leadingCoeffincient; 
+//	private static String powerRule(String leadingCoeffincient, String powerConstant) {
+//		String answer = null;
+//		System.out.println("Testing PowerRule One" + leadingCoeffincient + " " + powerConstant );
+//		int intLeadingCoeffincient = Integer.parseInt(leadingCoeffincient), intPowerConstant = Integer.parseInt(powerConstant);
+//		intLeadingCoeffincient = intLeadingCoeffincient * intPowerConstant; 
+//		intPowerConstant =intPowerConstant - 1; 
+//		
+//		leadingCoeffincient = String.valueOf(intLeadingCoeffincient); 
+//		powerConstant = String.valueOf(intPowerConstant); 
+//		if(intPowerConstant == 0) {
+//			return leadingCoeffincient; 
+//		}
+//		
+//	
+//		return leadingCoeffincient + "x^" + powerConstant ; 
+//	}
+	private static String testingPowerRule(String fX) {
+		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
+		String aSubstring , constant; 
+		boolean noPowerOf = true;
+		try {
+			integerFX = Integer.parseInt(fX);
 		}
-		
-		
-		return leadingCoeffincient + "x^" + powerConstant ; 
+		catch(Exception e) {
+			System.out.println("Testing Power rule one");	
+				for(int index = 0; index < fX.length(); index++) {
+				aSubstring = fX.substring(index, secondIndex); 
+				if(aSubstring.equals("^")){
+					System.out.println("Testing Power rule second");
+					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
+					powerOf = Integer.parseInt(fX.substring(secondIndex, fX.length()));
+					//System.out.println(leadingCoeffincient +" "+ powerOf);
+					leadingCoeffincient = leadingCoeffincient *	powerOf;
+					
+					powerOf= powerOf - 1; 
+					noPowerOf = false;
+					if(powerOf == 1) {
+						//System.out.println(String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
+						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1);
+					}
+					//System.out.println(String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
+					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf);
+				}
+				else if (index == fX.length()-1 && noPowerOf == true ) {
+					System.out.println("Testing power rule three");
+					try {
+						secondIndex = 1;
+						for( index = 0; index < fX.length(); index++) {
+							System.out.println(fX.substring(index, secondIndex));
+							leadingCoeffincient = Integer.parseInt(fX.substring(index, secondIndex));
+							
+							secondIndex++; 
+						}
+					}
+					catch(Exception t) {
+						System.out.println("Testing PowerRule Forth");
+						return fX.substring(0,index);
+						
+					}
+				}
+				
+				secondIndex++; 
+				}
+		}
+		System.out.println("Final Testing PowerRule");
+		return "0";
 	}
 	public String getF_Of_X() {
 		return this.f_Of_X;
