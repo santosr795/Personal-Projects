@@ -7,7 +7,7 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(4x^2)(3x^3)";
+		String you = "(4x^2)";
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
 		second = first.typeOfDerivative(you);
@@ -59,16 +59,21 @@ public class Derivative {
 			secondIndex++;
 		}
 		if(secondPartOfDerivative ==null) {
-			Derivative power; 
-		//	power = powerRule(firstPartOfDerivative);
+			
+			String power = powerRule(firstPartOfDerivative);
+			System.out.println(power);
 		}
 		/*
 		 * The Instance variable answer is not a valid 
 		 * answer. Change it once all this method is complete 
 		 * 
 		 */
-		Derivative answer3 = new Derivative(answer);
-		return answer3; 
+		
+		return null; 
+	}
+	private static Derivative chainRule(String fX) {
+		return null;
+		
 	}
 	/*
 	 * The formula for product rule f(X) = (f(x))(f(g)). The Derivative will be 
@@ -185,6 +190,26 @@ public class Derivative {
 //	
 //		return leadingCoeffincient + "x^" + powerConstant ; 
 //	}
+	/*
+	 * powerRule Method Doc
+	 * When this method is call it will asked for a String. 
+	 * This String will be test by converting it to a integer. 
+	 * If it converts to a string than the method will return zero.
+	 * Else the method will continue running, the method will check if 
+	 * the string Contains a "^" inside the String. If the String contains
+	 * a "^" than the program will convert all the numbers that the string contains
+	 * into integers. The numbers in front of the String will be into the instance 
+	 * variable leadingCoeffincient, and the numbers after "^" put into powerOf.
+	 * The program will make a new leadingCoeffincient by multiplying the 
+	 * existing leadingCoeffincient with powerOf. Also the method will give 
+	 * powerOf a new value by subtracting one out of it. once this all done the 
+	 * method will check if the powerOF is equals to one, if it does the method will
+	 * return the leadingCoefficient and the corresponding variable. If its greater 
+	 * than one the program will return leadingCoefficient, corresponding variable, ^, 
+	 * and powerOf. If the method does not find "^" in the string the method will 
+	 * ignore the variable and only return the numbers in front of it. 
+	 * 
+	 */
 	private static String powerRule(String fX) {
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
 		String aSubstring , constant; 
@@ -193,11 +218,11 @@ public class Derivative {
 			integerFX = Integer.parseInt(fX);
 		}
 		catch(Exception e) {
-			System.out.println("Testing Power rule one");	
+			//System.out.println("Testing Power rule one");	
 				for(int index = 0; index < fX.length(); index++) {
 				aSubstring = fX.substring(index, secondIndex); 
 				if(aSubstring.equals("^")){
-					System.out.println("Testing Power rule second");
+					//System.out.println("Testing Power rule second");
 					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
 					powerOf = Integer.parseInt(fX.substring(secondIndex, fX.length()));
 					//System.out.println(leadingCoeffincient +" "+ powerOf);
@@ -213,7 +238,7 @@ public class Derivative {
 					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf);
 				}
 				else if (index == fX.length()-1 && noPowerOf == true ) {
-					System.out.println("Testing power rule three");
+				//	System.out.println("Testing power rule three");
 					try {
 						secondIndex = 1;
 						for( index = 0; index < fX.length(); index++) {
@@ -224,7 +249,7 @@ public class Derivative {
 						}
 					}
 					catch(Exception t) {
-						System.out.println("Testing PowerRule Forth");
+					//	System.out.println("Testing PowerRule Forth");
 						return fX.substring(0,index);
 						
 					}
