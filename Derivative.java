@@ -7,7 +7,8 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(4x^2)";
+		String you = "(4x^2-+ 2x + 2)";
+		
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
 		second = first.typeOfDerivative(you);
@@ -211,8 +212,9 @@ public class Derivative {
 	 * 
 	 */
 	private static String powerRule(String fX) {
+		System.out.println("fX is equals to " + fX);
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
-		String aSubstring , constant; 
+		String aSubstring , constant, temporaryHolder ; 
 		boolean noPowerOf = true;
 		try {
 			integerFX = Integer.parseInt(fX);
@@ -224,7 +226,16 @@ public class Derivative {
 				if(aSubstring.equals("^")){
 					//System.out.println("Testing Power rule second");
 					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
-					powerOf = Integer.parseInt(fX.substring(secondIndex, fX.length()));
+					if(fX.contains("+")|| fX.contains("-")) {
+						temporaryHolder = fX.substring(secondIndex+1, fX.length());
+						System.out.println("Temporary Holder Value " + temporaryHolder);
+						while(temporaryHolder.substring(0,1).equals("-")||temporaryHolder.substring(0,1).equals("+")||temporaryHolder.substring(0,1).equals(" ")) {
+							System.out.println("Checking +,  , -");
+							System.exit(0);
+						}
+						powerRule(fX.substring(secondIndex+1, fX.length()));
+					}
+					powerOf = Integer.parseInt(fX.substring(secondIndex, secondIndex+1));
 					//System.out.println(leadingCoeffincient +" "+ powerOf);
 					leadingCoeffincient = leadingCoeffincient *	powerOf;
 					
