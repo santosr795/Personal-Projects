@@ -7,8 +7,8 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(4x^2-+ 2x + 2)";
-		
+		String you = "(-4x^2- 5x^3 + 2d^4 - 2x + 2)";
+		 
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
 		second = first.typeOfDerivative(you);
@@ -51,7 +51,7 @@ public class Derivative {
 				//	System.out.println("Three");
 					if(answer.equals("/") && input.substring(index -1, secondIndex-1).equals(")") ) {
 						secondPartOfDerivative = input.substring(secondIndex + 1, input.length()-1); 
-						Derivative quotient; 
+						Derivative quotient;  
 						quotient = quotientRule(firstPartOfDerivative, secondPartOfDerivative); 
 						System.out.println("Test number third typeOfDerivative" + secondPartOfDerivative);
 					}
@@ -214,7 +214,7 @@ public class Derivative {
 	private static String powerRule(String fX) {
 		System.out.println("fX is equals to " + fX);
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
-		String aSubstring , constant, temporaryHolder ; 
+		String aSubstring , constant, temporaryHolder = null, symbols = null ; 
 		boolean noPowerOf = true;
 		try {
 			integerFX = Integer.parseInt(fX);
@@ -228,44 +228,45 @@ public class Derivative {
 					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
 					if(fX.contains("+")|| fX.contains("-")) {
 						temporaryHolder = fX.substring(secondIndex+1, fX.length());
-						System.out.println("Temporary Holder Value " + temporaryHolder);
+						//System.out.println("Temporary Holder Value " + temporaryHolder);
 						while(temporaryHolder.substring(0,1).equals("-")||temporaryHolder.substring(0,1).equals("+")||temporaryHolder.substring(0,1).equals(" ")) {
-							System.out.println("Checking +,  , -");
-							System.exit(0);
+							//System.out.println("Checking +,  , -");
+							if(temporaryHolder.substring(0,1).equals("-")||temporaryHolder.substring(0,1).equals("+")) {
+								symbols = temporaryHolder.substring(0,1);
+							}
+							temporaryHolder = temporaryHolder.substring(1, temporaryHolder.length()); 
+							//System.out.println("TemporaryHolder Value "+temporaryHolder);
+							//System.exit(0);
 						}
-						powerRule(fX.substring(secondIndex+1, fX.length()));
+						temporaryHolder = powerRule(temporaryHolder);
 					}
 					powerOf = Integer.parseInt(fX.substring(secondIndex, secondIndex+1));
 					//System.out.println(leadingCoeffincient +" "+ powerOf);
-					leadingCoeffincient = leadingCoeffincient *	powerOf;
-					
+					leadingCoeffincient = leadingCoeffincient *	powerOf;					
 					powerOf= powerOf - 1; 
 					noPowerOf = false;
 					if(powerOf == 1) {
-						//System.out.println(String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
-						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1);
+						System.out.println("The return value test one "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
+						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + symbols+temporaryHolder;
 					}
-					//System.out.println(String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
-					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf);
+					System.out.println("The return value test two "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
+					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf) + symbols +temporaryHolder;
 				}
 				else if (index == fX.length()-1 && noPowerOf == true ) {
 				//	System.out.println("Testing power rule three");
 					try {
 						secondIndex = 1;
 						for( index = 0; index < fX.length(); index++) {
-							System.out.println(fX.substring(index, secondIndex));
-							leadingCoeffincient = Integer.parseInt(fX.substring(index, secondIndex));
-							
+							System.out.println("Testing PowerRule three 1/2 "+ fX.substring(index, secondIndex));
+							leadingCoeffincient = Integer.parseInt(fX.substring(index, secondIndex));			
 							secondIndex++; 
 						}
 					}
 					catch(Exception t) {
-					//	System.out.println("Testing PowerRule Forth");
-						return fX.substring(0,index);
-						
+						System.out.println("The return value test three " + fX.substring(0,index) );
+						return fX.substring(0,index) ;						
 					}
-				}
-				
+				}				
 				secondIndex++; 
 				}
 		}
