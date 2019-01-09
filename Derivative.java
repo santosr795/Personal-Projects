@@ -7,7 +7,7 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(-4x^2- 5x^3 + 2d^4 - 2x + 2)";
+		String you = "(8x^2- 5x^3 + 2d^4 - 2x + 2)(4t^3+12x = 2";
 		 
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
@@ -115,7 +115,7 @@ public class Derivative {
 //			 secondIndex++;
 //		}
 		String derivative = "("+derivativeFX + ")("+fG + ") + (" + fX +")("+derivativeFG +")";
-		System.out.println("Testing Power Rule Four "+derivative);
+		System.out.println("Testing product Rule Four "+derivative);
 		Derivative answer = new Derivative(derivative); 
 		
 		return answer ; 
@@ -212,23 +212,51 @@ public class Derivative {
 	 * 
 	 */
 	private static String powerRule(String fX) {
-		System.out.println("fX is equals to " + fX);
+	//	System.out.println("fX is equals to " + fX);
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
 		String aSubstring , constant, temporaryHolder = null, symbols = null ; 
 		boolean noPowerOf = true;
+		/*
+		 * This try will try will try convert fX into 
+		 * an integer. if it does than the method will
+		 * return zero.
+		 */
 		try {
 			integerFX = Integer.parseInt(fX);
 		}
+		/*
+		 * When this catch it is trigger it will go through
+		 * the String of fX and find each piece and it will 
+		 * do the derivate of it. 
+		 */
 		catch(Exception e) {
 			//System.out.println("Testing Power rule one");	
+			/*
+			 * This for loop will check each index of the String fX.
+			 */
 				for(int index = 0; index < fX.length(); index++) {
 				aSubstring = fX.substring(index, secondIndex); 
+				/*
+				 * Once the method finds the symbol of "^" it will split the 
+				 * the string making two new substring call leadingCoefficient
+				 * and powerOf. but first it will check if the string contains
+				 * mathematical symbols such as "+" and "-".
+				 */
 				if(aSubstring.equals("^")){
 					//System.out.println("Testing Power rule second");
 					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
 					if(fX.contains("+")|| fX.contains("-")) {
 						temporaryHolder = fX.substring(secondIndex+1, fX.length());
 						//System.out.println("Temporary Holder Value " + temporaryHolder);
+						/*
+						 * The method will check if the string has blank space and Mathematical
+						 * symbols("+", "-") in the front of the string.
+						 * If it does it will go inside the while loop and delete blank spaces and 
+						 * mathematical symbols, but it will save mathematical symbols. After it 
+						 * deletes and save symbols or blank spaces, the method will run itself 
+						 * again from the beginning until its able to passes. once its done it returns again it 
+						 * will save itself into temporaryHolder
+						 */
 						while(temporaryHolder.substring(0,1).equals("-")||temporaryHolder.substring(0,1).equals("+")||temporaryHolder.substring(0,1).equals(" ")) {
 							//System.out.println("Checking +,  , -");
 							if(temporaryHolder.substring(0,1).equals("-")||temporaryHolder.substring(0,1).equals("+")) {
@@ -240,16 +268,30 @@ public class Derivative {
 						}
 						temporaryHolder = powerRule(temporaryHolder);
 					}
+					/*
+					 * The Method will make two new integer that will come from part of the string 
+					 * fX. Than it will give leadingCoeffincient a new value by multiplying powerOf
+					 * and leadingCoeffincient. It will also give powerOf a new value by subtracting 
+					 * one out of it. The method will make noPowerOf equals to false, meaning the 
+					 * part of string had the symbol "^"; 
+					 */
 					powerOf = Integer.parseInt(fX.substring(secondIndex, secondIndex+1));
 					//System.out.println(leadingCoeffincient +" "+ powerOf);
 					leadingCoeffincient = leadingCoeffincient *	powerOf;					
 					powerOf= powerOf - 1; 
 					noPowerOf = false;
+					/*
+					 * The method will check if the powerOf is equals to one, if it does than the 
+					 * the method will return the Value of the leadingCoeffincient, the correspondent
+					 * variable, the correct mathematical symbols, and temporaryHolder. If its not 
+					 * equals to one than the method will return  the Value of the leadingCoeffincient, the correspondent
+					 * variable, "^" , the value of powerOf,the correct mathematical symbols, and temporaryHolder
+					 */
 					if(powerOf == 1) {
-						System.out.println("The return value test one "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
+						//System.out.println("The return value test one "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
 						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + symbols+temporaryHolder;
 					}
-					System.out.println("The return value test two "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
+					//System.out.println("The return value test two "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
 					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf) + symbols +temporaryHolder;
 				}
 				else if (index == fX.length()-1 && noPowerOf == true ) {
@@ -257,20 +299,20 @@ public class Derivative {
 					try {
 						secondIndex = 1;
 						for( index = 0; index < fX.length(); index++) {
-							System.out.println("Testing PowerRule three 1/2 "+ fX.substring(index, secondIndex));
+				//			System.out.println("Testing PowerRule three 1/2 "+ fX.substring(index, secondIndex));
 							leadingCoeffincient = Integer.parseInt(fX.substring(index, secondIndex));			
 							secondIndex++; 
 						}
 					}
 					catch(Exception t) {
-						System.out.println("The return value test three " + fX.substring(0,index) );
+			//			System.out.println("The return value test three " + fX.substring(0,index) );
 						return fX.substring(0,index) ;						
 					}
 				}				
 				secondIndex++; 
 				}
 		}
-		System.out.println("Final Testing PowerRule");
+		//System.out.println("Final Testing PowerRule");
 		return "0";
 	}
 	public String getF_Of_X() {
