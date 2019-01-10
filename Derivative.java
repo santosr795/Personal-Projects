@@ -7,11 +7,11 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "(8x^2- 5x^3 + 2d^4 - 2x + 2)(4t^3+12x = 2";
-		 
+		String you = "((8x^2- 5x^3 + 2d^4 - 2x + 2))^(1212x)";
+		 chainRule(you); 
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
-		second = first.typeOfDerivative(you);
+		//second = first.typeOfDerivative(you);
 	}
 	Derivative() {
 		
@@ -25,9 +25,10 @@ public class Derivative {
 		
 	}
 	
-	public Derivative typeOfDerivative(String input) {
+	public static Derivative typeOfDerivative(String input) {
 		int secondIndex = 1; 
 		String answer = ""; 
+		Derivative solution; 
 		int in =0; 
 		String firstPartOfDerivative = null; 
 		String secondPartOfDerivative = null;
@@ -63,6 +64,10 @@ public class Derivative {
 			
 			String power = powerRule(firstPartOfDerivative);
 			System.out.println(power);
+			return solution = new Derivative(power); 
+		}
+		else {
+			
 		}
 		/*
 		 * The Instance variable answer is not a valid 
@@ -73,6 +78,29 @@ public class Derivative {
 		return null; 
 	}
 	private static Derivative chainRule(String fX) {
+		Derivative outterDerivative = null;
+		String aSubstring = null, innerEquation = null, outterEquation = null;
+		int secondIndex =1, outterEquationInteger = 0; 
+		for(int index= 0; index < fX.length(); index++) {
+			if(fX.substring(index, secondIndex).equals("^")&& aSubstring.equals(")")) {
+				System.out.println("Testing chainRule One");
+				outterEquation = fX.substring(secondIndex, fX.length()); 
+				innerEquation = fX.substring(1, index-1);
+				System.out.println("InnerEquation is equals to " + innerEquation);
+				System.out.println("OutterEquation is equals to "+outterEquation);
+				try {
+					outterEquationInteger = Integer.parseInt(outterEquation);
+				}
+				catch(Exception e) {
+					System.out.println("It has fail ParseInt"); 
+					outterDerivative = typeOfDerivative(outterEquation);
+					
+					System.out.println("outterEquation + "+ outterDerivative );
+				}
+			}
+			aSubstring = fX.substring(index,secondIndex); 
+			secondIndex++;
+		}
 		return null;
 		
 	}
@@ -316,10 +344,13 @@ public class Derivative {
 		return "0";
 	}
 	public String getF_Of_X() {
-		return this.f_Of_X;
+		return f_Of_X;
 	}
 	public String getF_Of_G() {
 		return this.f_Of_G;
+	}
+	public void setF_OF_X(String fX) {
+		this.f_Of_X = fX; 
 	}
 	
 }
