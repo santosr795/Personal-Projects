@@ -7,8 +7,8 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "((2x))^3";
-		 chainRule(you); 
+		String you = "((2x))^1/3";
+		chainRule(you); 
 	//	System.out.println(you.substring(0,2));
 		//testingPowerRule(you);
 		//second = first.typeOfDerivative(you);
@@ -64,7 +64,7 @@ public class Derivative {
 		if(secondPartOfDerivative ==null) {
 			
 			 power = powerRule(firstPartOfDerivative);
-			System.out.println("The answer for power"+power);
+			//System.out.println("The answer for power"+power);
 			solution = new Derivative(power);
 			//System.out.[r]
 			return solution ; 
@@ -130,16 +130,42 @@ public class Derivative {
 					 * This branch needs a lot more work. There is a high 
 					 * possibility that everything is wrong. 
 					 */
-					outterDerivative = typeOfDerivative(outterEquation);		
-					innerDerivative = typeOfDerivative(innerEquation);
-					outterEquation = outterDerivative.toString();
-					FINAL_DERIVATIVE = outterDerivative.toString()  +" "+  innerEquation +" " + innerDerivative.toString();
-					//System.out.println("It has fail ParseInt"); 
-					System.out.println("Value of outterEquation  "+ outterDerivative.toString()  );
-					System.out.println("Value of innerEquation  "+ innerDerivative.toString() );
-					System.out.println("Value of FINAL_DERIVATIVE " + FINAL_DERIVATIVE);
+					secondIndex =1;
+					for(index =0; index < outterEquation.length(); index++){
+						if (outterEquation.substring(index, secondIndex).equals("/")) {
+							///System.out.println(outterEquation.substring(index-1, secondIndex-1));
+							//System.out.println(outterEquation.substring(index+1, secondIndex+1));
+							try {
+								int powerOf = Integer.parseInt(outterEquation.substring(index-1, secondIndex-1));
+								int squareRoot = Integer.parseInt(outterEquation.substring(index+1, secondIndex+1));
+								//System.out.println("The value of powerOf " + powerOf );
+								//System.out.println("The value of squareRoot " + squareRoot);
+								powerOf = powerOf - squareRoot; 
+								innerDerivative = typeOfDerivative(innerEquation);
+								FINAL_DERIVATIVE = "("+outterEquation + innerEquation+ "^"+powerOf+"/" +squareRoot+") " + innerDerivative.toString();
+								//System.out.println("The value of new powerOf " + powerOf );
+								//System.out.println("The value of FINAL_DERIVATIVE " + FINAL_DERIVATIVE);
+								return solution = new Derivative(FINAL_DERIVATIVE);
+							}
+							catch(Exception t) {
+								outterDerivative = typeOfDerivative(outterEquation);		
+								innerDerivative = typeOfDerivative(innerEquation);
+								outterEquation = outterDerivative.toString();
+								FINAL_DERIVATIVE = outterDerivative.toString()  +" "+  innerEquation +" " + innerDerivative.toString();
+								//System.out.println("It has fail ParseInt"); 
+								//System.out.println("Value of outterEquation  "+ outterDerivative.toString()  );
+								//System.out.println("Value of innerEquation  "+ innerDerivative.toString() );
+								//System.out.println("Value of FINAL_DERIVATIVE " + FINAL_DERIVATIVE);
+								return solution = new Derivative(FINAL_DERIVATIVE);
+							}
+							//System.exit(0);
+						}
+						secondIndex++; 
+					}
+				
 				}
-			}
+			}//End of If
+			
 			aSubstring = fX.substring(index,secondIndex); 
 			secondIndex++;
 		}
