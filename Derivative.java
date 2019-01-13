@@ -7,10 +7,11 @@ public class Derivative {
 	public static void main(String args[]) {
 		Derivative first = new Derivative("1"); 
 		Derivative second = null; 
-		String you = "((2x))^1/3";
+		String you = "ln3x";
 		chainRule(you); 
 	//	System.out.println(you.substring(0,2));
-		//testingPowerRule(you);
+	 //you = powerRule(you);
+	 //System.out.println(you);
 		//second = first.typeOfDerivative(you);
 	}
 	Derivative() {
@@ -26,6 +27,7 @@ public class Derivative {
 	
 	
 	public static Derivative typeOfDerivative(String input) {
+		System.out.println("typeOFDerivative. entering Value " + input);
 		int secondIndex = 1; 
 		String answer = ""; 
 		Derivative solution; 
@@ -165,6 +167,17 @@ public class Derivative {
 				
 				}
 			}//End of If
+			else if(fX.substring(index,secondIndex).equalsIgnoreCase("n")&&aSubstring.equalsIgnoreCase("l")) {
+				innerEquation = fX.substring(secondIndex,fX.length());
+				System.out.println("Chain Rule. The Value of innerEquation "+ innerEquation);
+				innerDerivative = typeOfDerivative(innerEquation); 
+				FINAL_DERIVATIVE = " (1/ "+ innerEquation + ") "+innerDerivative.toString() ;
+				///return 
+				System.out.println("Chain Rule. The value of FINAL_DERIVATIVE "  + FINAL_DERIVATIVE);
+				
+				System.out.println("Chain Rule. The value of innerDerivative " + innerDerivative.toString());
+				//System.out.println("This will get the derivative of Ln ");
+			}
 			
 			aSubstring = fX.substring(index,secondIndex); 
 			secondIndex++;
@@ -308,7 +321,7 @@ public class Derivative {
 	 * 
 	 */
 	private static String powerRule(String fX) {
-	//	System.out.println("fX is equals to " + fX);
+		System.out.println("powerRule. fX is equals to " + fX);
 		int integerFX, leadingCoeffincient, powerOf ,secondIndex = 1; 
 		String aSubstring , constant, temporaryHolder = null, symbols = null ; 
 		boolean noPowerOf = true;
@@ -326,10 +339,13 @@ public class Derivative {
 		 * do the derivate of it. 
 		 */
 		catch(Exception e) {
-			//System.out.println("Testing Power rule one");	
+			//System.out.println("powerRule. length of fx  " + fX.length());
+			System.out.println("Testing Power rule one");	
+		
 			/*
 			 * This for loop will check each index of the String fX.
 			 */
+			
 				for(int index = 0; index < fX.length(); index++) {
 				aSubstring = fX.substring(index, secondIndex); 
 				/*
@@ -340,7 +356,13 @@ public class Derivative {
 				 */
 				if(aSubstring.equals("^")){
 					//System.out.println("Testing Power rule second");
-					leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
+					if(fX.substring(0,1).equals("(")) {
+						leadingCoeffincient = Integer.parseInt(fX.substring(1, index-1));
+						//System.out.println("It has detective ( in the front");
+					}
+					else {
+						leadingCoeffincient = Integer.parseInt(fX.substring(0, index-1));
+					}
 					if(fX.contains("+")|| fX.contains("-")) {
 						temporaryHolder = fX.substring(secondIndex+1, fX.length());
 						//System.out.println("Temporary Holder Value " + temporaryHolder);
@@ -372,9 +394,11 @@ public class Derivative {
 					 * part of string had the symbol "^"; 
 					 */
 					powerOf = Integer.parseInt(fX.substring(secondIndex, secondIndex+1));
-					//System.out.println(leadingCoeffincient +" "+ powerOf);
+					System.out.println(leadingCoeffincient +" "+ powerOf);
 					leadingCoeffincient = leadingCoeffincient *	powerOf;					
 					powerOf= powerOf - 1; 
+					//System.out.println("powerRule the Value of PowerOf " + powerOf);
+					//System.out.println("powerRule the value of leadingCoeffincient " + leadingCoeffincient);
 					noPowerOf = false;
 					/*
 					 * The method will check if the powerOf is equals to one, if it does than the 
@@ -383,9 +407,15 @@ public class Derivative {
 					 * equals to one than the method will return  the Value of the leadingCoeffincient, the correspondent
 					 * variable, "^" , the value of powerOf,the correct mathematical symbols, and temporaryHolder
 					 */
-					if(powerOf == 1) {
+					if(powerOf  <2 &&symbols != null && temporaryHolder != null) {
 						//System.out.println("The return value test one "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1));
 						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + symbols+temporaryHolder;
+					}
+					else if(powerOf  <2 &&symbols == null && temporaryHolder == null) {
+						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1);
+					}
+					else if(symbols == null && temporaryHolder == null) {
+						return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf);
 					}
 					//System.out.println("The return value test two "+String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1) + "^"+ String.valueOf(powerOf));
 					return String.valueOf(leadingCoeffincient) + fX.substring(index-1,secondIndex -1)+"^" + String.valueOf(powerOf) + symbols +temporaryHolder;
